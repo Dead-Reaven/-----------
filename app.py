@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify, render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from datetime import datetime  # Import the datetime module
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///driving_school.db'
@@ -41,14 +42,23 @@ def add_user():
 @app.route('/api/scores', methods=['POST'])
 def add_score():
     data = request.get_json()
-    new_score = Score(user_id=data['user_id'], date=data['date'], score=data['score'])
+    user_id = data['user_id']
+    date_str = data['date']
+    score = data['score']
+
+    # Convert the date string to a datetime.date object
+    date = datetime.strptime(date_str, '%Y-%m-%d').date()
+
+    new_score = Score(user_id=user_id, date=date, score=score)
     db.session.add(new_score)
     db.session.commit()
     return jsonify(new_score.serialize()), 201
 
-@app.route('/api/scores/<int:user_id>', methods=['GET'])
-def get_scores(user_id):
-    scores = Score.query.filter_by(user_id=user_id).all()
+
+# замість /api/scores/<int:user_id> було впроваджено /api/scores
+@app.route('/api/scores', methods=['GET'])
+def get_all_scores():
+    scores = Score.query.all()
     return jsonify([score.serialize() for score in scores])
 
 @app.route('/')
