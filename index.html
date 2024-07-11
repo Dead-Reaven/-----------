@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Driving School Performance Tracker</title>
+</head>
+<body>
+    <h1>Driving School Performance Tracker</h1>
+    <form id="userForm">
+        <input type="text" id="name" placeholder="User Name" required>
+        <button type="submit">Add User</button>
+    </form>
+    <form id="scoreForm">
+        <input type="number" id="user_id" placeholder="User ID" required>
+        <input type="date" id="date" required>
+        <input type="number" id="score" placeholder="Score" required>
+        <button type="submit">Add Score</button>
+    </form>
+    <h2>User Scores</h2>
+    <div id="userScores"></div>
+    <script src="app.js"></script>
+</body>
+</html>
